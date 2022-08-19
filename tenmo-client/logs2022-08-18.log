@@ -14,3 +14,4 @@
 2022-08-18T16:58:36.0538591 404 : [{"timestamp":"2022-08-18T23:58:36.043+00:00","status":404,"error":"Not Found","message":"No message available","path":"/balance/1002"}]
 2022-08-18T16:59:14.1433567 404 : [{"timestamp":"2022-08-18T23:59:14.132+00:00","status":404,"error":"Not Found","message":"No message available","path":"/balance/"}]
 2022-08-18T17:09:03.2884294 404 : [{"timestamp":"2022-08-19T00:09:03.277+00:00","status":404,"error":"Not Found","message":"No message available","path":"/balance/1002"}]
+2022-08-18T19:37:39.0809991 404 : [{"timestamp":"2022-08-19T00:37:39.051+00:00","status":404,"error":"Not Found","message":"No message available","path":"/balance/1003"}]

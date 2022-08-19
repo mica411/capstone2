@@ -2,7 +2,7 @@ package com.techelevator.tenmo.model;
 
 import java.math.BigDecimal;
 
-public class Balance {
+public class Balance  {
 
     BigDecimal balance;
 

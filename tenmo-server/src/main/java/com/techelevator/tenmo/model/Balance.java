@@ -25,6 +25,6 @@ public class Balance {
     //Needs more work
     @Override
     public String toString() {
-        return String.valueOf(balance);
+        return "Balance: $" + balance;
     }
 }
