@@ -22,7 +22,6 @@ public class Balance {
         this.balance = balance;
     }
 
-    //Needs more work
     @Override
     public String toString() {
         return "Balance: $" + balance;
