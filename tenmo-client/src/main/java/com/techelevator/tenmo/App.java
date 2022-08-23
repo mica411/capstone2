@@ -1,14 +1,17 @@
 package com.techelevator.tenmo;
 
+
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Balance;
+import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
-import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.AccountServiceRest;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App {
 
@@ -16,7 +19,9 @@ public class App {
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private AuthenticatedUser currentUser;
-    private final AccountService accountService = new AccountServiceRest(API_BASE_URL);
+    private final AccountServiceRest accountService = new AccountServiceRest(API_BASE_URL);
+
+    // private final TransferService transferService = new TransferService (API_BASE_URL);
 
     public static void main(String[] args) {
         App app = new App();
@@ -91,11 +96,13 @@ public class App {
 
     private void viewCurrentBalance() {
         Balance balance = accountService.getBalance(currentUser);
+        System.out.println();
         System.out.println("Your current balance is: " + balance.getBalance());
     }
 
     private void viewTransferHistory() {
         // TODO Auto-generated method stub
+
 
     }
 
@@ -107,11 +114,70 @@ public class App {
     private void sendBucks() {
         // TODO Auto-generated method stub
 
+        System.out.println();
+        System.out.println("--------------------------------------------");
+        System.out.println("Users ID" +"    " + "Name");
+        System.out.println("--------------------------------------------");
+
+        User[] users = accountService.getAllUsers(currentUser);
+            for (User user : users) {
+                if (user.getUsername().equals(currentUser.getUser().getUsername())) {
+                    continue;
+                }
+                System.out.println(user.getId() + "        " + user.getUsername());
+                }
+
+        System.out.println("--------------------------------------------");
+        System.out.println();
+
+        long userInput = consoleService.promptForLong("Enter ID of user you are sending to (0 to cancel): ");
+        if (userInput == 0 || userInput == currentUser.getUser().getId()) {
+            System.out.println("Transaction cancelled");
+        } else {
+            long toId = 0L;
+            for (User user : users) {
+                if (user.getId() == userInput) {
+                    toId = userInput;
+                }
+            }
+        }
+
+        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter amount: ");
+
     }
 
     private void requestBucks() {
         // TODO Auto-generated method stub
+        System.out.println();
+        System.out.println("--------------------------------------------");
+        System.out.println("Users ID" +"    " + "Name");
+        System.out.println("--------------------------------------------");
 
+        User[] users = accountService.getAllUsers(currentUser);
+        for (User user : users) {
+            if (user.getUsername().equals(currentUser.getUser().getUsername())) {
+                continue;
+            }
+            System.out.println(user.getId() + "        " + user.getUsername());
+        }
+
+        System.out.println("--------------------------------------------");
+        System.out.println();
+
+        long userInput = consoleService.promptForLong("Enter ID of user you are requesting from (0 to cancel): ");
+        if (userInput == 0 || userInput == currentUser.getUser().getId()) {
+            System.out.println("Transaction cancelled");
+        } else {
+            long fromId = 0L;
+            for (User user : users) {
+                if (user.getId() == userInput) {
+                    fromId = userInput;
+                }
+            }
+        }
+
+        BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter amount: ");
     }
+
 
 }

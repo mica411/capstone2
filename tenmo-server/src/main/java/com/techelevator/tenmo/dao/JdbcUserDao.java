@@ -79,6 +79,17 @@ public class JdbcUserDao implements UserDao {
         return true;
     }
 
+    @Override
+    public User findById(Long id) {
+        User user = null;
+        String SQL = "SELECT * FROM tenmo_user WHERE user_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(SQL, id);
+        while(results.next()){
+            user = mapRowToUser(results);
+        }
+        return user;
+    }
+
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();
         user.setId(rs.getLong("user_id"));
@@ -88,4 +99,5 @@ public class JdbcUserDao implements UserDao {
         user.setAuthorities("USER");
         return user;
     }
+
 }

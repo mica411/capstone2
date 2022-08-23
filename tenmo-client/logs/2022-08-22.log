@@ -1,0 +1,7 @@
+2022-08-22T18:28:26.347627 400 : [{"timestamp":"2022-08-23T01:28:26.276+00:00","status":400,"error":"Bad Request","message":"User registration failed.","path":"/register"}]
+2022-08-22T18:28:33.59294 400 : [{"timestamp":"2022-08-23T01:28:33.590+00:00","status":400,"error":"Bad Request","message":"User registration failed.","path":"/register"}]
+2022-08-22T18:28:45.786995 400 : [{"timestamp":"2022-08-23T01:28:45.785+00:00","status":400,"error":"Bad Request","message":"User registration failed.","path":"/register"}]
+2022-08-22T18:54:46.975494 404 : [{"timestamp":"2022-08-23T01:54:46.939+00:00","status":404,"error":"Not Found","message":"No message available","path":"/user"}]
+2022-08-22T18:56:12.911093 404 : [{"timestamp":"2022-08-23T01:56:12.873+00:00","status":404,"error":"Not Found","message":"No message available","path":"/user"}]
+2022-08-22T18:57:05.802382 404 : [{"timestamp":"2022-08-23T01:57:05.755+00:00","status":404,"error":"Not Found","message":"No message available","path":"/user"}]
+2022-08-22T18:59:12.428976 404 : [{"timestamp":"2022-08-23T01:59:12.389+00:00","status":404,"error":"Not Found","message":"No message available","path":"/user"}]

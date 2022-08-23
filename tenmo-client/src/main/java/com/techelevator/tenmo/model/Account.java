@@ -6,6 +6,8 @@ public class Account {
     private int userId;
     private Balance balance;
 
+    private String Username;
+
     public int getAccountId() {
         return accountId;
     }

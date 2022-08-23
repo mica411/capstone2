@@ -1,13 +1,19 @@
 package com.techelevator.tenmo.dao;
 
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Balance;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import javax.security.auth.login.AccountNotFoundException;
 import javax.sql.DataSource;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Component
 public class JdbcAccountDao implements AccountDao {
@@ -16,6 +22,8 @@ public class JdbcAccountDao implements AccountDao {
     public JdbcAccountDao(DataSource ds) {
         this.jdbcTemplate = new JdbcTemplate(ds);
     }
+
+    public static List<Account> accounts = new ArrayList<>();
 
     @Override
     public Balance getBalanceByUserId(int id) {
