@@ -1,13 +1,11 @@
 package com.techelevator.tenmo;
 
 
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Balance;
-import com.techelevator.tenmo.model.User;
-import com.techelevator.tenmo.model.UserCredentials;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.AccountServiceRest;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.TransferServiceRest;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -21,7 +19,7 @@ public class App {
     private AuthenticatedUser currentUser;
     private final AccountServiceRest accountService = new AccountServiceRest(API_BASE_URL);
 
-    // private final TransferService transferService = new TransferService (API_BASE_URL);
+     private TransferServiceRest transferService = new TransferServiceRest (API_BASE_URL);
 
     public static void main(String[] args) {
         App app = new App();
@@ -97,7 +95,7 @@ public class App {
     private void viewCurrentBalance() {
         Balance balance = accountService.getBalance(currentUser);
         System.out.println();
-        System.out.println("Your current balance is: " + balance.getBalance());
+        System.out.println("Your current balance is: $" + balance.getBalance());
     }
 
     private void viewTransferHistory() {
@@ -111,21 +109,27 @@ public class App {
 
     }
 
+    private int transferId;
+
+    public void countTransferId(){
+        transferId++;
+    }
+
     private void sendBucks() {
         // TODO Auto-generated method stub
 
         System.out.println();
         System.out.println("--------------------------------------------");
-        System.out.println("Users ID" +"    " + "Name");
+        System.out.println("Users ID" + "    " + "Name");
         System.out.println("--------------------------------------------");
 
         User[] users = accountService.getAllUsers(currentUser);
-            for (User user : users) {
-                if (user.getUsername().equals(currentUser.getUser().getUsername())) {
-                    continue;
-                }
-                System.out.println(user.getId() + "        " + user.getUsername());
-                }
+        for (User user : users) {
+            if (user.getUsername().equals(currentUser.getUser().getUsername())) {
+                continue;
+            }
+            System.out.println(user.getId() + "        " + user.getUsername());
+        }
 
         System.out.println("--------------------------------------------");
         System.out.println();
@@ -144,6 +148,35 @@ public class App {
 
         BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter amount: ");
 
+        int accountF = accountService.getAccountByUserId(currentUser.getUser().getId()).getAccountId();
+        int accountT = accountService.getAccountByUserId(userInput).getAccountId();
+
+
+
+        if (transferAmount.compareTo(new BigDecimal(0)) > 0) {
+            if (transferAmount.compareTo(new BigDecimal(String.valueOf(accountService.getBalance(currentUser)))) < 0) {
+                Transfer transfer = new Transfer();
+//            transfer.setTransferId(transferId);
+                transfer.setTransferTypeId(2);
+                transfer.setTransferStatusId(2);
+                transfer.setAccountFrom(accountF);
+                transfer.setAccountTo(accountT);
+                transfer.setAmount(transferAmount);
+
+                transferService.createTransfer(currentUser, transfer);
+
+//            Account accountF=accountService.getAccountByUserId(Math.toIntExact(currentUser.getUser().getId()), currentUser);
+//            Account accountT=accountService.getAccountByUserId(Math.toIntExact(userInput), currentUser);
+//
+//             accountF.getBalance().getBalance().subtract(transferAmount);
+//             accountT.getBalance().getBalance().add(transferAmount);
+                System.out.println("Transfer made.");
+            } else {
+                System.out.println("Not enough funds.");
+            }
+        } else {
+            System.out.println("Transfer failed.");
+        }
     }
 
     private void requestBucks() {

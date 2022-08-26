@@ -17,12 +17,12 @@ public class TransferServiceRest {
     private RestTemplate restTemplate;
     private AuthenticatedUser authenticatedUser;
 
-    public TransferServiceRest(String baseUrl, RestTemplate restTemplate) {
+    public TransferServiceRest(String baseUrl) {
         this.baseUrl = baseUrl;
         this.restTemplate = restTemplate;
     }
 
-    public Transfer[] getTransfers(AuthenticatedUser authenticatedUser){
+    public Transfer[] getAllTransfers(AuthenticatedUser authenticatedUser){
         Transfer [] transfers=null;
         try{
             transfers= restTemplate.exchange(baseUrl+ "/transfers",
@@ -36,10 +36,10 @@ public class TransferServiceRest {
         return transfers;
     }
 
-    public boolean create(AuthenticatedUser authenticatedUser, Transfer transfer){
+    public boolean createTransfer(AuthenticatedUser authenticatedUser, Transfer transfer){
       boolean transferCreated= false;
         try{
-            restTemplate.exchange(baseUrl+"/transfers/"+ transfer.getTransferId(),
+            restTemplate.exchange(baseUrl+"/transfers",
                     HttpMethod.POST,
                     makeEntity(transfer),
                     Transfer.class);
@@ -81,7 +81,7 @@ public class TransferServiceRest {
     public Transfer[] getTransfersByUserId(AuthenticatedUser authenticatedUser, int userId){
         Transfer[] transfers= null;
         try{
-            transfers= restTemplate.exchange(baseUrl+"transfers/user/"+userId, HttpMethod.GET, makeAuthEntity(authenticatedUser), Transfer[].class).getBody();
+            transfers= restTemplate.exchange(baseUrl+"/transfers/user/"+userId, HttpMethod.GET, makeAuthEntity(authenticatedUser), Transfer[].class).getBody();
         }catch(RestClientResponseException | ResourceAccessException e){
             BasicLogger.log(e.getMessage());
         }

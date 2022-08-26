@@ -4,13 +4,17 @@ package com.techelevator.tenmo.controller;
 import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.TransferDao;
 import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
@@ -20,14 +24,43 @@ public class TransferController {
     private AccountDao accountDao;
     @Autowired
     private UserDao userDao;
-//    @Autowired
+    @Autowired
     private TransferDao transferDao;
 
 
-    @GetMapping (path = "transfer/amount")
+    @GetMapping (path = "/transfers/amount")
     public Transfer getTransferAmount () {
         return transferDao.getTransferAmount();
     }
+
+    @PreAuthorize("hasRole('USER')")
+   @RequestMapping(path = "/transfers", method = RequestMethod.GET)
+    public List<Transfer> listTransfers(){
+        List<Transfer> transfers= new ArrayList<>();
+
+        return transferDao.getAllTransfers();
+
+    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(path= "/transfers", method = RequestMethod.POST)
+    public Transfer create(@RequestBody Transfer transferMade){
+
+        BigDecimal amountTransfer= transferMade.getAmount();
+        Account accountF= accountDao.getAccountByAccountId(transferMade.getAccountFrom());
+        Account accounT= accountDao.getAccountByAccountId(transferMade.getAccountTo());
+
+        accountDao.subtractFromBalance(amountTransfer,accountF.getUserId());
+        accountDao.addToBalance(amountTransfer, accounT.getUserId());
+
+
+        transferDao.createTransfer(transferMade);
+
+        return transferMade;
+    }
+
+
 
     //@GetMapping (path = "/transfers")
 //    public Transfer[] allTransfers (Principal principal){

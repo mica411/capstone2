@@ -1,9 +1,7 @@
 package com.techelevator.tenmo.services;
 
 //import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.Balance;
-import com.techelevator.tenmo.model.User;
+import com.techelevator.tenmo.model.*;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.*;
 import org.springframework.web.client.ResourceAccessException;
@@ -42,8 +40,13 @@ public class AccountServiceRest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(headers);
     }
-
-
+    private HttpEntity<Account> makeEntity(Account account) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(authenticatedUser.getToken());
+        HttpEntity<Account> accountEntity = new HttpEntity<>(account, headers);
+        return accountEntity;
+    }
     public User[] getAllUsers(AuthenticatedUser authenticatedUser){
         HttpEntity<Void> entity = makeAuthEntity(authenticatedUser);
         User[] users = null;
@@ -56,6 +59,23 @@ public class AccountServiceRest {
         }
         return users;
     }
+
+    public Account getAccountByUserId(Long userId){
+       // HttpEntity<Void> entity= makeAuthEntity(authenticatedUser);
+        Account account= null;
+        try {
+            account= restTemplate.exchange(baseUrl+ "accounts/"+ userId, HttpMethod.GET, makeAuthEntity(authenticatedUser), Account.class).getBody();
+            return account;
+            }catch (RestClientResponseException rcre) {
+            BasicLogger.log(rcre.getRawStatusCode() + " : " + rcre.getStatusText());
+        } catch (ResourceAccessException rae) {
+            BasicLogger.log(rae.getMessage());
+        }catch(NullPointerException npe){
+            npe.printStackTrace();
+        }
+        return account;
+        }
+
 
     public User getUsersById(Long id, AuthenticatedUser authenticatedUser) {
         HttpEntity<Void> entity = makeAuthEntity(authenticatedUser);
@@ -71,5 +91,8 @@ public class AccountServiceRest {
         }
         return user;
     }
+
+
+
 
 }
