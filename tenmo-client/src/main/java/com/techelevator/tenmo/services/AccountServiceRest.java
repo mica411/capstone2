@@ -37,8 +37,9 @@ public class AccountServiceRest {
     private HttpEntity<Void> makeAuthEntity(AuthenticatedUser authenticatedUser) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authenticatedUser.getToken());
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        return new HttpEntity<>(headers);
+            HttpEntity entity = new HttpEntity<>(headers);
+            return entity;
+
     }
     private HttpEntity<Account> makeEntity(Account account) {
         HttpHeaders headers = new HttpHeaders();
@@ -60,9 +61,9 @@ public class AccountServiceRest {
         return users;
     }
 
-    public Account getAccountByUserId(Long userId){
+    public Account getAccountByUserId(Long userId, AuthenticatedUser authenticatedUser){
        // HttpEntity<Void> entity= makeAuthEntity(authenticatedUser);
-        Account account= null;
+        Account account= new Account();
         try {
             account= restTemplate.exchange(baseUrl+ "accounts/"+ userId, HttpMethod.GET, makeAuthEntity(authenticatedUser), Account.class).getBody();
             return account;
@@ -77,7 +78,7 @@ public class AccountServiceRest {
         }
 
 
-    public User getUsersById(Long id, AuthenticatedUser authenticatedUser) {
+    public User getUsersById(int id, AuthenticatedUser authenticatedUser) {
         HttpEntity<Void> entity = makeAuthEntity(authenticatedUser);
         User user = null;
         try {

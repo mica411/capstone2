@@ -19,7 +19,7 @@ public class TransferServiceRest {
 
     public TransferServiceRest(String baseUrl) {
         this.baseUrl = baseUrl;
-        this.restTemplate = restTemplate;
+        this.restTemplate = new RestTemplate();
     }
 
     public Transfer[] getAllTransfers(AuthenticatedUser authenticatedUser){
@@ -41,9 +41,9 @@ public class TransferServiceRest {
         try{
             restTemplate.exchange(baseUrl+"/transfers",
                     HttpMethod.POST,
-                    makeEntity(transfer),
+                    makeEntity(transfer, authenticatedUser),
                     Transfer.class);
-            transferCreated = true;
+           transferCreated = true;
     }catch(RestClientResponseException | ResourceAccessException e){
             BasicLogger.log(e.getMessage());
         }
@@ -69,7 +69,7 @@ public class TransferServiceRest {
         try{
             restTemplate.exchange(baseUrl+"/transfers/"+ transfer.getTransferId(),
                     HttpMethod.PUT,
-                    makeEntity(transfer),
+                    makeEntity(transfer, authenticatedUser),
                     Transfer.class);
             updated=true;
         }catch(RestClientResponseException | ResourceAccessException e){
@@ -91,14 +91,12 @@ public class TransferServiceRest {
     private HttpEntity<Void> makeAuthEntity(AuthenticatedUser authenticatedUser) {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authenticatedUser.getToken());
-        headers.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(headers);
 }
-    private HttpEntity<Transfer> makeEntity(Transfer transfer) {
+    private HttpEntity<Transfer> makeEntity(Transfer transfer, AuthenticatedUser authenticatedUser) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(authenticatedUser.getToken());
-         HttpEntity<Transfer> transferEntity= new HttpEntity<> (transfer, headers);
-    return transferEntity;
+        return new HttpEntity<> (transfer, headers);
 }
 }
