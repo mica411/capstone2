@@ -35,8 +35,8 @@ public class AccountController {
 //      return null;
 //    }
     @PreAuthorize("hasRole('USER')")
-    @RequestMapping(path = "/accounts/{id}", method = RequestMethod.GET)
-    public Account getAccountByUserId(@PathVariable Long userId) {
+    @RequestMapping(path = "/accounts/{userId}", method = RequestMethod.GET)
+    public Account getAccountByUserId(@PathVariable int userId) {
     return accountDao.getAccountByUserId(userId);
 }
 

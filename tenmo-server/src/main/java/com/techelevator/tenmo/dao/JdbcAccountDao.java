@@ -95,7 +95,7 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public Account getAccountByUserId(Long userId){
+    public Account getAccountByUserId(int userId){
         Account account= null;
         String sql= "SELECT account_id, user_id, balance FROM account WHERE user_id=?";
         SqlRowSet results= jdbcTemplate.queryForRowSet(sql, userId);
@@ -103,7 +103,6 @@ public class JdbcAccountDao implements AccountDao {
             account=mapRowToAccount(results);
         }
         return account;
-
     }
     //TODO: DO NOT DELETE WE NEED IT FOR LATER
 

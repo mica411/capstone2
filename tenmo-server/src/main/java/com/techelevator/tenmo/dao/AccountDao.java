@@ -22,7 +22,7 @@ public interface AccountDao {
 
     Account getAccountByAccountId(int accountId);
 
-    Account getAccountByUserId(Long userId);
+    Account getAccountByUserId(int userId);
 
 
 

@@ -97,6 +97,6 @@ public class TransferServiceRest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(authenticatedUser.getToken());
-        return new HttpEntity<> (transfer, headers);
+        return new HttpEntity<Transfer> (transfer, headers);
 }
 }

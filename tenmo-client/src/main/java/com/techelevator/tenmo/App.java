@@ -181,7 +181,9 @@ public class App {
             for (User user : users) {
                 if (user.getId() == userInput) {
                     toId = userInput;
+
                 }
+
             }
         }
 
@@ -189,8 +191,10 @@ public class App {
         Account account1=accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser);
            Account account2=accountService.getAccountByUserId(userInput, currentUser);
         int accountF =  account1.getAccountId();
+       // System.out.println(accountF);
                 //accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser).getAccountId();
         int accountT = account2.getAccountId();
+       // System.out.println(accountT);
                 //accountService.getAccountByUserId(userInput, currentUser).getAccountId();
 
 
