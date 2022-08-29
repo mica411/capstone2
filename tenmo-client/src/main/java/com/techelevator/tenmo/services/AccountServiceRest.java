@@ -63,11 +63,11 @@ public class AccountServiceRest {
 
     public Account getAccountByUserId(Long userId, AuthenticatedUser authenticatedUser){
        HttpEntity<Void> entity= makeAuthEntity(authenticatedUser);
-        System.out.println(userId);
+//        System.out.println(userId);
         Account account= new Account();
        // try {
             account= restTemplate.exchange(baseUrl+ "accounts/"+ userId, HttpMethod.GET, entity, Account.class).getBody();
-            System.out.println(account.getAccountId());
+//            System.out.println(account.getAccountId());
             return account;
            // }catch (RestClientResponseException rcre) {
            // BasicLogger.log(rcre.getRawStatusCode() + " : " + rcre.getStatusText());

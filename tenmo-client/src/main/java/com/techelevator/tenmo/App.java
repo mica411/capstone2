@@ -109,50 +109,36 @@ public class App {
         System.out.println("------------------------------------------");
         Transfer[] transfers = transferService.getAllTransfers(currentUser);
         for (Transfer transfer : transfers) {
-//            if (transfers.getUsername().equals(currentUser.getUser().getUsername())) {
-//                continue;
-//            }
-            if (transfer.getAccountFrom() ==accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser).getAccountId()); {
 
-
-                System.out.println(transfer.getTransferId() + "         From: "+transfer.getAccountTo()+"        " + transfer.getAmount());
-
+            if (transfer.getAccountFrom() == accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser).getAccountId()) {
+                System.out.println(transfer.getTransferId() + "        To:" + transfer.getAccountTo() + "      " + transfer.getAmount());
+            } else if (transfer.getAccountTo() == accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser).getAccountId()) {
+                System.out.println(transfer.getTransferId() + "        From:" + transfer.getAccountFrom() + "      " + transfer.getAmount());
             }
-            if(transfer.getAccountTo() ==accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser).getAccountId()) {
 
-
-
-                System.out.println(transfer.getTransferId() + "        From:" +transfer.getAccountFrom()+"         " + transfer.getAmount());
-
-                long choice = consoleService.promptForLong("Please enter transfer ID to view details(0 to cancel): ");
-            }
-        }}
-
-
-//    public String toOrFrom(){
-//        Transfer[] transfers= transferService.getAllTransfers(currentUser);
-//        String toOrF= "";
-//        for(Transfer transfer : transfers){
-//            if(transfer.getTransferTypeId()==2){
 //
-//                toOrF="To: "+ accountService.getUsersById(transfer.getAccountTo(),currentUser).getUsername();
-//            }else{
-//               toOrF="From:"+ accountService.getUsersById(transfer.getAccountFrom(), currentUser).getUsername();
-//            }
-//        }
-//        return toOrF;
-//    }
+
+        }
+
+        int choice = consoleService.promptForInt("Please enter transfer ID to view details(0 to cancel): ");
+        for (Transfer transfer : transfers) {
+            if (choice == transfer.getTransferId()) {
+//        Transfer transfer= transferService.getTransfer( choice, currentUser);
+                System.out.println("------------------------------------------");
+                System.out.println("Transfer Details");
+                System.out.println("------------------------------------------");
+                System.out.println("Transfer Id: " + transfer.getTransferId() + "\n From: "+"\n To: "+"\n Type: " + transfer.getTransferTypeId()+"\n Status: "+
+                        "\n Amount: $");
+            }
+        }
+    }
+
 
     private void viewPendingRequests() {
         // TODO Auto-generated method stub
 
     }
 
-    private int transferId;
-
-    public void countTransferId(){
-        transferId++;
-    }
 
     private void sendBucks() {
         // TODO Auto-generated method stub
@@ -188,7 +174,7 @@ public class App {
         }
 
         BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter amount: ");
-        Account account1=accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser);
+           Account account1=accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser);
            Account account2=accountService.getAccountByUserId(userInput, currentUser);
         int accountF =  account1.getAccountId();
        // System.out.println(accountF);
@@ -200,6 +186,7 @@ public class App {
 
     try{
         if (transferAmount.compareTo(new BigDecimal(0)) > 0) {
+            if (accountService.getBalance(currentUser).getBalance().compareTo(transferAmount) == 1) {
 
                 Transfer transfer = new Transfer();
 //            transfer.setTransferId(transferId);
@@ -208,20 +195,23 @@ public class App {
                 transfer.setAccountFrom(accountF);
                 transfer.setAccountTo(accountT);
                 transfer.setAmount(transferAmount);
-
-                System.out.println("Transfer made."+ transferService.createTransfer(currentUser, transfer));
+                transferService.createTransfer(currentUser, transfer);
+                System.out.println("Transfer made successfully.");
 
 //            Account account1=accountService.getAccountByUserId(Math.toIntExact(currentUser.getUser().getId()), currentUser);
 //            Account account2=accountService.getAccountByUserId(Math.toIntExact(userInput), currentUser);
 //
 //             account1.getBalance().getBalance().subtract(transferAmount);
 //             account2.getBalance().getBalance().add(transferAmount);
-               // System.out.println("Transfer made.");
-            } else {
-                System.out.println("Not enough funds.");
+                //System.out.println("Transfer made.");
 
-            System.out.println("Transfer failed.");
-        }}catch (RestClientResponseException | ResourceAccessException e) {
+            }else{
+                System.out.println("Not enough funds.");
+            //System.out.println("Transfer failed.");
+
+    }}else{
+        System.out.println("Invalid amount.");
+    }}catch (RestClientResponseException | ResourceAccessException e) {
         BasicLogger.log(e.getMessage());
     }
 

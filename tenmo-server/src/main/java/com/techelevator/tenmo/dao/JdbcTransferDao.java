@@ -45,6 +45,7 @@ public class JdbcTransferDao implements TransferDao{
         return transfers;
     }
 
+
     @Override
     public boolean createTransfer(Transfer transfer){
         String sql= "INSERT INTO transfer( transfer_type_id, transfer_status_id, account_from, account_to, amount)"+
@@ -52,6 +53,17 @@ public class JdbcTransferDao implements TransferDao{
         return jdbcTemplate.update(sql, transfer.getTransferTypeId(),transfer.getTransferStatusId(), transfer.getAccountFrom(), transfer.getAccountTo(), transfer.getAmount())==1;
     }
 
+    @Override
+    public Transfer getTransferByTransferId(int transferId){
+        Transfer transfer= null;
+        String sql ="SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount"+
+                "FROM transfer WHERE transfer_id=?";
+        SqlRowSet results= jdbcTemplate.queryForRowSet(sql,transferId);
+        if(results.next()){
+            transfer=mapRowToTransfer(results);
+        }
+        return transfer;
+    }
     private Transfer mapRowToTransfer(SqlRowSet rs) {
         Transfer transfer = new Transfer();
       transfer.setTransferId(rs.getInt("transfer_id"));

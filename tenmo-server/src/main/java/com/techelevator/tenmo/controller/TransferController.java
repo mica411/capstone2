@@ -60,6 +60,11 @@ public class TransferController {
         return transferMade;
     }
 
+    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(path = "transfers/{id}", method = RequestMethod.GET)
+    public Transfer getTransfer( @PathVariable int id){
+        return transferDao.getTransferByTransferId(id);
+    }
 
 
     //@GetMapping (path = "/transfers")

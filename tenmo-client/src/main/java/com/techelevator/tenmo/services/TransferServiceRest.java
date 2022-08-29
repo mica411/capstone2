@@ -36,33 +36,53 @@ public class TransferServiceRest {
         return transfers;
     }
 
-    public boolean createTransfer(AuthenticatedUser authenticatedUser, Transfer transfer){
-      boolean transferCreated= false;
+    public Transfer getTransfer(int id, AuthenticatedUser authenticatedUser){
+        Transfer transfer=null;
+        System.out.println(id);
+        //try{
+            transfer= restTemplate.exchange(baseUrl+ "/transfers/"+ id ,
+                    HttpMethod.GET,
+                    makeAuthEntity(authenticatedUser),
+                    Transfer.class).getBody();
+        System.out.println(transfer);
+//        }catch(RestClientResponseException | ResourceAccessException e){
+//            BasicLogger.log(e.getMessage());
+//        }
+        return transfer;
+    }
+
+    public void createTransfer(AuthenticatedUser authenticatedUser, Transfer transfer){
+     // boolean transferCreated= false;
         try{
             restTemplate.exchange(baseUrl+"/transfers",
                     HttpMethod.POST,
                     makeEntity(transfer, authenticatedUser),
                     Transfer.class);
-           transferCreated = true;
+          // transferCreated = true;
     }catch(RestClientResponseException | ResourceAccessException e){
             BasicLogger.log(e.getMessage());
         }
-        return transferCreated;
+       // return transferCreated;
 
 }
 
-    public Transfer getTransferByTransferId(AuthenticatedUser authenticatedUser, int id){
-        Transfer transfer= null;
-        try{
-            transfer= restTemplate.exchange(baseUrl+"/transfers/"+ id,
-                    HttpMethod.GET,
-                    makeAuthEntity(authenticatedUser),
-                    Transfer.class).getBody();
-        } catch(RestClientResponseException | ResourceAccessException e){
-            BasicLogger.log(e.getMessage());
-        }
-        return transfer;
-    }
+//    public Transfer getTransferByTransferId(int transferId, AuthenticatedUser authenticatedUser ){
+//        HttpEntity<Void> entity= makeAuthEntity(authenticatedUser);
+//        System.out.println(transferId);
+//        Transfer transfer= new Transfer();
+//
+//       // try{
+//            transfer= restTemplate.exchange(baseUrl+"transfers/"+ transferId,
+//                    HttpMethod.GET,
+//                    entity,
+//                    Transfer.class).getBody();
+//
+//        System.out.println(transfer);
+////        } catch(RestClientResponseException | ResourceAccessException e){
+////            BasicLogger.log(e.getMessage());
+////        }
+//        return transfer;
+//    }
 
     public boolean updateTransfer(AuthenticatedUser authenticatedUser, Transfer transfer){
         boolean updated= false;
