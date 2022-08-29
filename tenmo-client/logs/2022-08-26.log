@@ -1,0 +1,24 @@
+2022-08-26T17:33:23.0389351 500 : 
+2022-08-26T17:33:23.0489434 500 : 
+2022-08-26T17:33:23.0819704 500 : [{"timestamp":"2022-08-27T00:33:23.079+00:00","status":500,"error":"Internal Server Error","message":"Cannot invoke \"com.techelevator.tenmo.model.Account.getUserId()\" because \"accountF\" is null","path":"/transfers"}]
+2022-08-26T17:46:13.4175266 500 : 
+2022-08-26T17:46:13.4265346 500 : 
+2022-08-26T17:46:13.4565602 500 : [{"timestamp":"2022-08-27T00:46:13.454+00:00","status":500,"error":"Internal Server Error","message":"Cannot invoke \"com.techelevator.tenmo.model.Account.getBalance()\" because \"account\" is null","path":"/transfers"}]
+2022-08-26T17:47:58.4863686 500 : 
+2022-08-26T17:47:58.4943748 500 : 
+2022-08-26T17:47:58.5233988 500 : [{"timestamp":"2022-08-27T00:47:58.522+00:00","status":500,"error":"Internal Server Error","message":"Cannot invoke \"com.techelevator.tenmo.model.Account.getBalance()\" because \"account\" is null","path":"/transfers"}]
+2022-08-26T18:00:23.1476909 500 : 
+2022-08-26T18:00:23.1566982 500 : 
+2022-08-26T18:00:23.187723 500 : [{"timestamp":"2022-08-27T01:00:23.186+00:00","status":500,"error":"Internal Server Error","message":"Cannot invoke \"com.techelevator.tenmo.model.Account.getBalance()\" because \"account\" is null","path":"/transfers"}]
+2022-08-26T18:01:39.6675598 500 : 
+2022-08-26T18:01:39.6755673 500 : 
+2022-08-26T18:01:39.7055932 500 : [{"timestamp":"2022-08-27T01:01:39.703+00:00","status":500,"error":"Internal Server Error","message":"Cannot invoke \"com.techelevator.tenmo.model.Account.getBalance()\" because \"account\" is null","path":"/transfers"}]
+2022-08-26T18:08:01.7775553 500 : 
+2022-08-26T18:08:01.786563 500 : 
+2022-08-26T18:08:01.8155883 500 : [{"timestamp":"2022-08-27T01:08:01.813+00:00","status":500,"error":"Internal Server Error","message":"Cannot invoke \"com.techelevator.tenmo.model.Account.getBalance()\" because \"account\" is null","path":"/transfers"}]
+2022-08-26T18:09:21.0476364 500 : 
+2022-08-26T18:09:21.0586462 500 : 
+2022-08-26T18:09:21.0916756 500 : [{"timestamp":"2022-08-27T01:09:21.089+00:00","status":500,"error":"Internal Server Error","message":"Cannot invoke \"com.techelevator.tenmo.model.Account.getBalance()\" because \"account\" is null","path":"/transfers"}]
+2022-08-26T18:12:17.6162959 500 : 
+2022-08-26T18:12:17.6283049 500 : 
+2022-08-26T18:12:17.6568377 500 : [{"timestamp":"2022-08-27T01:12:17.655+00:00","status":500,"error":"Internal Server Error","message":"Cannot invoke \"com.techelevator.tenmo.model.Account.getBalance()\" because \"account\" is null","path":"/transfers"}]

@@ -14,4 +14,10 @@ public interface TransferDao {
 
     Transfer getTransferByTransferId(int transferId);
 
+    Transfer getUsernameByAccountId(int accountId);
+
+    Transfer getTransferStatus(int statusId);
+
+    Transfer getTransferType(int typeId);
+
 }

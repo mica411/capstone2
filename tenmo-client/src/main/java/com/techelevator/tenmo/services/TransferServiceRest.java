@@ -101,11 +101,21 @@ public class TransferServiceRest {
     public Transfer[] getTransfersByUserId(AuthenticatedUser authenticatedUser, int userId){
         Transfer[] transfers= null;
         try{
-            transfers= restTemplate.exchange(baseUrl+"/transfers/user/"+userId, HttpMethod.GET, makeAuthEntity(authenticatedUser), Transfer[].class).getBody();
+            transfers= restTemplate.exchange(baseUrl+"/transfers/user/" + userId, HttpMethod.GET, makeAuthEntity(authenticatedUser), Transfer[].class).getBody();
         }catch(RestClientResponseException | ResourceAccessException e){
             BasicLogger.log(e.getMessage());
         }
         return transfers;
+    }
+
+    public Transfer getDetailsById(int id) {
+        Transfer transfer = null;
+        try {
+            transfer = restTemplate.exchange(baseUrl + "/transfer/details/" + id, HttpMethod.GET, makeAuthEntity(authenticatedUser), Transfer.class).getBody();
+        } catch (RestClientResponseException rcre){
+            BasicLogger.log(rcre.getMessage());
+        }
+        return transfer;
     }
 
     private HttpEntity<Void> makeAuthEntity(AuthenticatedUser authenticatedUser) {

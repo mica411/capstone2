@@ -21,7 +21,6 @@ public class App {
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private AuthenticatedUser currentUser;
     private final AccountServiceRest accountService = new AccountServiceRest(API_BASE_URL);
-
      private TransferServiceRest transferService = new TransferServiceRest (API_BASE_URL);
 
     public static void main(String[] args) {
@@ -107,9 +106,9 @@ public class App {
         System.out.println("Transfers");
         System.out.println("ID            From/To               Amount");
         System.out.println("------------------------------------------");
+
         Transfer[] transfers = transferService.getAllTransfers(currentUser);
         for (Transfer transfer : transfers) {
-
             if (transfer.getAccountFrom() == accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser).getAccountId()) {
                 System.out.println(transfer.getTransferId() + "        To:" + transfer.getAccountTo() + "      " + transfer.getAmount());
             } else if (transfer.getAccountTo() == accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser).getAccountId()) {

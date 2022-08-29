@@ -56,7 +56,7 @@ public class JdbcTransferDao implements TransferDao{
     @Override
     public Transfer getTransferByTransferId(int transferId){
         Transfer transfer= null;
-        String sql ="SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount"+
+        String sql ="SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount "+
                 "FROM transfer WHERE transfer_id=?";
         SqlRowSet results= jdbcTemplate.queryForRowSet(sql,transferId);
         if(results.next()){
@@ -64,6 +64,30 @@ public class JdbcTransferDao implements TransferDao{
         }
         return transfer;
     }
+
+    //TODO CONTINUE!!!
+
+//    @Override
+//    public Transfer getUsernameByAccountId(int accountId) {
+//        String username = "SELECT username FROM tenmo_user " +
+//                "JOIN account a ON tenmo_user.user_id = a.user_id " +
+//                "WHERE a.account_id = ?;";
+//
+//        SqlRowSet result = jdbcTemplate.queryForRowSet(username, accountId);
+//
+//    }
+
+    @Override
+    public Transfer getTransferStatus(int statusId) {
+        return null;
+    }
+
+    @Override
+    public Transfer getTransferType(int typeId) {
+        return null;
+    }
+
+
     private Transfer mapRowToTransfer(SqlRowSet rs) {
         Transfer transfer = new Transfer();
       transfer.setTransferId(rs.getInt("transfer_id"));
