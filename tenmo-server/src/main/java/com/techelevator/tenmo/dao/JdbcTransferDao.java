@@ -67,15 +67,16 @@ public class JdbcTransferDao implements TransferDao{
 
     //TODO CONTINUE!!!
 
-//    @Override
-//    public Transfer getUsernameByAccountId(int accountId) {
-//        String username = "SELECT username FROM tenmo_user " +
-//                "JOIN account a ON tenmo_user.user_id = a.user_id " +
-//                "WHERE a.account_id = ?;";
-//
-//        SqlRowSet result = jdbcTemplate.queryForRowSet(username, accountId);
-//
-//    }
+    @Override
+    public Transfer getUsernameByAccountId(int accountId) {
+        String username = "SELECT username FROM tenmo_user " +
+                "JOIN account a ON tenmo_user.user_id = a.user_id " +
+                "WHERE a.account_id = ?;";
+
+        SqlRowSet result = jdbcTemplate.queryForRowSet(username, accountId);
+
+        return null;
+    }
 
     @Override
     public Transfer getTransferStatus(int statusId) {

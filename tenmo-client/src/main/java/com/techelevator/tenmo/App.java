@@ -126,8 +126,8 @@ public class App {
                 System.out.println("------------------------------------------");
                 System.out.println("Transfer Details");
                 System.out.println("------------------------------------------");
-                System.out.println("Transfer Id: " + transfer.getTransferId() + "\n From: "+"\n To: "+"\n Type: " + transfer.getTransferTypeId()+"\n Status: "+
-                        "\n Amount: $");
+                System.out.println("Transfer Id: " + transfer.getTransferId() + "\nFrom: "+ transfer.getAccountFrom() +"\nTo: "+ transfer.getAccountTo()+
+                        "\nType: " + transfer.getTransferTypeId()+ "\nStatus: " + transfer.getTransferStatusId()+ "\nAmount: $" + transfer.getAmount());
             }
         }
     }
