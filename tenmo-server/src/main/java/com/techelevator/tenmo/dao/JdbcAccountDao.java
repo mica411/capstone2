@@ -3,6 +3,7 @@ package com.techelevator.tenmo.dao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Balance;
 
+import com.techelevator.tenmo.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -103,6 +104,17 @@ public class JdbcAccountDao implements AccountDao {
             account=mapRowToAccount(results);
         }
         return account;
+    }
+
+    @Override
+    public Account getUsernameByAccountId (int accountId) {
+        Account username = null;
+        String sql = "SELECT username FROM tenmo_user JOIN account ON account.user_id = tenmo_user.user_id WHERE account_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, accountId);
+        if(results.next()) {
+            username =mapRowToAccount(results);
+        }
+        return username;
     }
     //TODO: DO NOT DELETE WE NEED IT FOR LATER
 

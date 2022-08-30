@@ -109,25 +109,31 @@ public class App {
 
         Transfer[] transfers = transferService.getAllTransfers(currentUser);
         for (Transfer transfer : transfers) {
-            if (transfer.getAccountFrom() == accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser).getAccountId()) {
-                System.out.println(transfer.getTransferId() + "        To:" + transfer.getAccountTo() + "      " + transfer.getAmount());
-            } else if (transfer.getAccountTo() == accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser).getAccountId()) {
-                System.out.println(transfer.getTransferId() + "        From:" + transfer.getAccountFrom() + "      " + transfer.getAmount());
+//            if (transfer.getTransferTypeId() == 2) {
+                if (transfer.getAccountFrom() == accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser).getAccountId()) {
+                    System.out.println(transfer.getTransferId() + "          To:" + transfer.getAccountTo() + "      " + transfer.getAmount());
+                } else if (transfer.getAccountTo() == accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser).getAccountId()) {
+                    System.out.println(transfer.getTransferId() + "          From:" + transfer.getAccountFrom() + "      " + transfer.getAmount());
+                }
             }
 
-//
-
-        }
 
         int choice = consoleService.promptForInt("Please enter transfer ID to view details(0 to cancel): ");
         for (Transfer transfer : transfers) {
             if (choice == transfer.getTransferId()) {
 //        Transfer transfer= transferService.getTransfer( choice, currentUser);
-                System.out.println("------------------------------------------");
-                System.out.println("Transfer Details");
-                System.out.println("------------------------------------------");
-                System.out.println("Transfer Id: " + transfer.getTransferId() + "\nFrom: "+ transfer.getAccountFrom() +"\nTo: "+ transfer.getAccountTo()+
-                        "\nType: " + transfer.getTransferTypeId()+ "\nStatus: " + transfer.getTransferStatusId()+ "\nAmount: $" + transfer.getAmount());
+
+                    System.out.println("------------------------------------------");
+                    System.out.println("Transfer Details");
+                    System.out.println("------------------------------------------");
+                    System.out.println("Transfer Id: " + transfer.getTransferId());
+                    System.out.println("From:        " + transfer.getAccountFrom());
+                    System.out.println("To:          " + transfer.getAccountTo());
+                    System.out.println("Type:        " + transfer.getTransferTypeId());
+                    System.out.println("Status:      " + transfer.getTransferStatusId());
+                    System.out.println("Amount:      $" + transfer.getAmount());
+
+
             }
         }
     }
@@ -247,6 +253,40 @@ public class App {
         }
 
         BigDecimal transferAmount = consoleService.promptForBigDecimal("Enter amount: ");
+
+        Account account1=accountService.getAccountByUserId(userInput, currentUser);
+        Account account2=accountService.getAccountByUserId(currentUser.getUser().getId(), currentUser);
+        int accountF =  account1.getAccountId();
+        // System.out.println(accountF);
+
+        int accountT = account2.getAccountId();
+        // System.out.println(accountT);
+
+
+
+        try{
+            if (transferAmount.compareTo(new BigDecimal(0)) > 0) {
+                if (accountService.getBalance(currentUser).getBalance().compareTo(transferAmount) == 1) {
+
+                    Transfer transfer = new Transfer();
+//            transfer.setTransferId(transferId);
+                    transfer.setTransferTypeId(1);
+                    transfer.setTransferStatusId(2);
+                    transfer.setAccountFrom(accountF);
+                    transfer.setAccountTo(accountT);
+                    transfer.setAmount(transferAmount);
+                    transferService.createTransfer(currentUser, transfer);
+                    System.out.println("Transfer made successfully.");
+
+                }else{
+                    System.out.println("Not enough funds.");
+                    //System.out.println("Transfer failed.");
+
+                }}else{
+                System.out.println("Invalid amount.");
+            }}catch (RestClientResponseException | ResourceAccessException e) {
+            BasicLogger.log(e.getMessage());
+        }
     }
 
 
