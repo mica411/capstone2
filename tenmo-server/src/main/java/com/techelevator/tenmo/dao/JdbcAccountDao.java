@@ -48,27 +48,30 @@ public class JdbcAccountDao implements AccountDao {
         }
         return balance;
     }
+
     @Override
-    public void updateAccountBalance(Account account){
-        String sql= "UPDATE account SET balance= ? WHERE user_id=?";
+    public void updateAccountBalance(Account account) {
+        String sql = "UPDATE account SET balance= ? WHERE user_id=?";
         jdbcTemplate.update(sql, account.getBalance().getBalance(), account.getUserId());
     }
+
     @Override
-    public void addToBalance(BigDecimal amount, int userId){
-        Account account= findAccountById(userId);
-        BigDecimal newBal= account.getBalance().getBalance().add(amount);
-        String sql= "UPDATE account SET balance=? WHERE user_id=?";
+    public void addToBalance(BigDecimal amount, int userId) {
+        Account account = findAccountById(userId);
+        BigDecimal newBal = account.getBalance().getBalance().add(amount);
+        String sql = "UPDATE account SET balance=? WHERE user_id=?";
         jdbcTemplate.update(sql, newBal, userId);
     }
 
     @Override
-    public void subtractFromBalance(BigDecimal amount, int userId){
-        Account account= findAccountById(userId);
-        BigDecimal newBal= account.getBalance().getBalance().subtract(amount);
-        String sql= "UPDATE account SET balance=? WHERE user_id=?";
+    public void subtractFromBalance(BigDecimal amount, int userId) {
+        Account account = findAccountById(userId);
+        BigDecimal newBal = account.getBalance().getBalance().subtract(amount);
+        String sql = "UPDATE account SET balance=? WHERE user_id=?";
         jdbcTemplate.update(sql, newBal, userId);
 
     }
+
     @Override
     public Account findAccountById(int id) {
         Account account = null;
@@ -81,41 +84,38 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public Account getAccountByAccountId(int accountId){
-        Account account= null;
-        String sql= "SELECT account_id, user_id, balance FROM account WHERE account_id=?";
-        SqlRowSet results= jdbcTemplate.queryForRowSet(sql, accountId);
-        if(results.next()){
-            account=mapRowToAccount(results);
+    public Account getAccountByAccountId(int accountId) {
+        Account account = null;
+        String sql = "SELECT account_id, user_id, balance FROM account WHERE account_id=?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, accountId);
+        if (results.next()) {
+            account = mapRowToAccount(results);
         }
         return account;
 
     }
 
     @Override
-    public Account getAccountByUserId(int userId){
-        Account account= null;
-        String sql= "SELECT account_id, user_id, balance FROM account WHERE user_id=?";
-        SqlRowSet results= jdbcTemplate.queryForRowSet(sql, userId);
-        if(results.next()){
-            account=mapRowToAccount(results);
+    public Account getAccountByUserId(int userId) {
+        Account account = null;
+        String sql = "SELECT account_id, user_id, balance FROM account WHERE user_id=?";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        if (results.next()) {
+            account = mapRowToAccount(results);
         }
         return account;
     }
 
     @Override
-    public Account getUsernameByAccountId (int accountId) {
+    public Account getUsernameByAccountId(int accountId) {
         Account username = null;
         String sql = "SELECT username FROM tenmo_user JOIN account ON account.user_id = tenmo_user.user_id WHERE account_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, accountId);
-        if(results.next()) {
-            username =mapRowToAccount(results);
+        if (results.next()) {
+            username = mapRowToAccount(results);
         }
         return username;
     }
-
-
-    //TODO: DO NOT DELETE WE NEED IT FOR LATER
 
     private Account mapRowToAccount(SqlRowSet result) {
         Account account = new Account();
@@ -123,16 +123,15 @@ public class JdbcAccountDao implements AccountDao {
         account.setAccountId(result.getInt("account_id"));
         account.setUserId(result.getInt("user_id"));
 
-        String accountBal= result.getString("balance");
+        String accountBal = result.getString("balance");
 
-        Balance bal= new Balance();
+        Balance bal = new Balance();
         bal.setBalance(new BigDecimal(accountBal));
 
         account.setBalance(bal);
 
         return account;
     }
-
 
 
 }

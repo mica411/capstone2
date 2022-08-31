@@ -22,87 +22,62 @@ public class TransferServiceRest {
         this.restTemplate = new RestTemplate();
     }
 
-    public Transfer[] getAllTransfers(AuthenticatedUser authenticatedUser){
-        Transfer [] transfers=null;
-        try{
-            transfers= restTemplate.exchange(baseUrl+ "/transfers",
+    public Transfer[] getAllTransfers(AuthenticatedUser authenticatedUser) {
+        Transfer[] transfers = null;
+        try {
+            transfers = restTemplate.exchange(baseUrl + "/transfers",
                     HttpMethod.GET,
                     makeAuthEntity(authenticatedUser),
                     Transfer[].class).getBody();
 
-        }catch(RestClientResponseException | ResourceAccessException e){
+        } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
         return transfers;
     }
 
-    public Transfer getTransfer(int id, AuthenticatedUser authenticatedUser){
-        Transfer transfer=null;
+    public Transfer getTransfer(int id, AuthenticatedUser authenticatedUser) {
+        Transfer transfer = null;
         System.out.println(id);
-        //try{
-            transfer= restTemplate.exchange(baseUrl+ "/transfers/"+ id ,
-                    HttpMethod.GET,
-                    makeAuthEntity(authenticatedUser),
-                    Transfer.class).getBody();
+        transfer = restTemplate.exchange(baseUrl + "/transfers/" + id,
+                HttpMethod.GET,
+                makeAuthEntity(authenticatedUser),
+                Transfer.class).getBody();
         System.out.println(transfer);
-//        }catch(RestClientResponseException | ResourceAccessException e){
-//            BasicLogger.log(e.getMessage());
-//        }
         return transfer;
     }
 
-    public void createTransfer(AuthenticatedUser authenticatedUser, Transfer transfer){
-     // boolean transferCreated= false;
-        try{
-            restTemplate.exchange(baseUrl+"/transfers",
+    public void createTransfer(AuthenticatedUser authenticatedUser, Transfer transfer) {
+        try {
+            restTemplate.exchange(baseUrl + "/transfers",
                     HttpMethod.POST,
                     makeEntity(transfer, authenticatedUser),
                     Transfer.class);
-          // transferCreated = true;
-    }catch(RestClientResponseException | ResourceAccessException e){
+        } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
-       // return transferCreated;
+    }
 
-}
 
-//    public Transfer getTransferByTransferId(int transferId, AuthenticatedUser authenticatedUser ){
-//        HttpEntity<Void> entity= makeAuthEntity(authenticatedUser);
-//        System.out.println(transferId);
-//        Transfer transfer= new Transfer();
-//
-//       // try{
-//            transfer= restTemplate.exchange(baseUrl+"transfers/"+ transferId,
-//                    HttpMethod.GET,
-//                    entity,
-//                    Transfer.class).getBody();
-//
-//        System.out.println(transfer);
-////        } catch(RestClientResponseException | ResourceAccessException e){
-////            BasicLogger.log(e.getMessage());
-////        }
-//        return transfer;
-//    }
-
-    public boolean updateTransfer(AuthenticatedUser authenticatedUser, Transfer transfer){
-        boolean updated= false;
-        try{
-            restTemplate.exchange(baseUrl+"/transfers/"+ transfer.getTransferId(),
+    public boolean updateTransfer(AuthenticatedUser authenticatedUser, Transfer transfer) {
+        boolean updated = false;
+        try {
+            restTemplate.exchange(baseUrl + "/transfers/" + transfer.getTransferId(),
                     HttpMethod.PUT,
                     makeEntity(transfer, authenticatedUser),
                     Transfer.class);
-            updated=true;
-        }catch(RestClientResponseException | ResourceAccessException e){
+            updated = true;
+        } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
-    return updated;
+        return updated;
     }
 
-    public Transfer[] getTransfersByUserId(AuthenticatedUser authenticatedUser, int userId){
-        Transfer[] transfers= null;
-        try{
-            transfers= restTemplate.exchange(baseUrl+"/transfers/user/" + userId, HttpMethod.GET, makeAuthEntity(authenticatedUser), Transfer[].class).getBody();
-        }catch(RestClientResponseException | ResourceAccessException e){
+    public Transfer[] getTransfersByUserId(AuthenticatedUser authenticatedUser, int userId) {
+        Transfer[] transfers = null;
+        try {
+            transfers = restTemplate.exchange(baseUrl + "/transfers/user/" + userId, HttpMethod.GET, makeAuthEntity(authenticatedUser), Transfer[].class).getBody();
+        } catch (RestClientResponseException | ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
         return transfers;
@@ -112,7 +87,7 @@ public class TransferServiceRest {
         Transfer transfer = null;
         try {
             transfer = restTemplate.exchange(baseUrl + "/transfer/details/" + id, HttpMethod.GET, makeAuthEntity(authenticatedUser), Transfer.class).getBody();
-        } catch (RestClientResponseException rcre){
+        } catch (RestClientResponseException rcre) {
             BasicLogger.log(rcre.getMessage());
         }
         return transfer;
@@ -122,11 +97,12 @@ public class TransferServiceRest {
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(authenticatedUser.getToken());
         return new HttpEntity<>(headers);
-}
+    }
+
     private HttpEntity<Transfer> makeEntity(Transfer transfer, AuthenticatedUser authenticatedUser) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(authenticatedUser.getToken());
-        return new HttpEntity<Transfer> (transfer, headers);
-}
+        return new HttpEntity<Transfer>(transfer, headers);
+    }
 }

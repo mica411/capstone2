@@ -10,18 +10,18 @@ import org.springframework.web.client.RestTemplate;
 public class UserService {
     String baseUrl;
 
-    private RestTemplate restTemplate= new RestTemplate();
+    private RestTemplate restTemplate = new RestTemplate();
 
     public UserService(String baseUrl) {
         this.baseUrl = baseUrl;
         this.restTemplate = restTemplate;
     }
 
-    public User getUser(Long id, AuthenticatedUser authenticatedUser){
-        HttpEntity<Void> entity= makeAuthEntity(authenticatedUser);
-        User user= new User();
+    public User getUser(Long id, AuthenticatedUser authenticatedUser) {
+        HttpEntity<Void> entity = makeAuthEntity(authenticatedUser);
+        User user = new User();
 
-        return restTemplate.exchange(baseUrl+"/user/"+id, HttpMethod.GET,entity,User.class).getBody();
+        return restTemplate.exchange(baseUrl + "/user/" + id, HttpMethod.GET, entity, User.class).getBody();
 
     }
 

@@ -17,6 +17,7 @@ import java.util.List;
 public class UserController {
 
     private UserDao userDao;
+
     public UserController(UserDao userDao) {
         this.userDao = userDao;
     }
@@ -33,9 +34,4 @@ public class UserController {
         return userDao.findAll();
     }
 
-
-//    @RequestMapping(path = "/users/account/{accountId}", method = RequestMethod.GET)
-//    public User getUserByAccountId(@PathVariable int accountId){
-//        return userDao.getUserByAccountId(accountId);
-//    }
 }

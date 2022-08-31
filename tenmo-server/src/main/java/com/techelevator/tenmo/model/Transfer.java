@@ -4,17 +4,17 @@ import java.math.BigDecimal;
 
 public class Transfer {
 
-private int transferId;
+    private int transferId;
 
-private int transferTypeId;
+    private int transferTypeId;
 
-private int transferStatusId;
+    private int transferStatusId;
 
-private int accountFrom;
+    private int accountFrom;
 
-private int accountTo;
+    private int accountTo;
 
-private BigDecimal amount;
+    private BigDecimal amount;
 
     public Transfer() {
     }

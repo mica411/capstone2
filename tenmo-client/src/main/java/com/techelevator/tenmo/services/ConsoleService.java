@@ -88,7 +88,6 @@ public class ConsoleService {
         System.out.println("An error occurred. Check the log for details.");
     }
 
-
     public Long promptForLong(String prompt) {
         System.out.print(prompt);
         while (true) {

@@ -27,16 +27,15 @@ public class TransferController {
     private TransferDao transferDao;
 
 
-
-    @GetMapping (path = "/transfers/amount")
-    public Transfer getTransferAmount () {
+    @GetMapping(path = "/transfers/amount")
+    public Transfer getTransferAmount() {
         return transferDao.getTransferAmount();
     }
 
     @PreAuthorize("hasRole('USER')")
-   @RequestMapping(path = "/transfers", method = RequestMethod.GET)
-    public List<Transfer> listTransfers(){
-        List<Transfer> transfers= new ArrayList<>();
+    @RequestMapping(path = "/transfers", method = RequestMethod.GET)
+    public List<Transfer> listTransfers() {
+        List<Transfer> transfers = new ArrayList<>();
 
         return transferDao.getAllTransfers();
 
@@ -44,14 +43,14 @@ public class TransferController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PreAuthorize("hasRole('USER')")
-    @RequestMapping(path= "/transfers", method = RequestMethod.POST)
-    public Transfer create(@RequestBody Transfer transferMade){
+    @RequestMapping(path = "/transfers", method = RequestMethod.POST)
+    public Transfer create(@RequestBody Transfer transferMade) {
 
-        BigDecimal amountTransfer= transferMade.getAmount();
-        Account accountF= accountDao.getAccountByAccountId(transferMade.getAccountFrom());
-        Account accounT= accountDao.getAccountByAccountId(transferMade.getAccountTo());
+        BigDecimal amountTransfer = transferMade.getAmount();
+        Account accountF = accountDao.getAccountByAccountId(transferMade.getAccountFrom());
+        Account accounT = accountDao.getAccountByAccountId(transferMade.getAccountTo());
 
-        accountDao.subtractFromBalance(amountTransfer,accountF.getUserId());
+        accountDao.subtractFromBalance(amountTransfer, accountF.getUserId());
         accountDao.addToBalance(amountTransfer, accounT.getUserId());
 
 
@@ -62,13 +61,8 @@ public class TransferController {
 
     @PreAuthorize("hasRole('USER')")
     @RequestMapping(path = "transfers/{id}", method = RequestMethod.GET)
-    public Transfer getTransfer( @PathVariable int id){
+    public Transfer getTransfer(@PathVariable int id) {
         return transferDao.getTransferByTransferId(id);
     }
 
-
-    //@GetMapping (path = "/transfers")
-//    public Transfer[] allTransfers (Principal principal){
-//    return transferDao.getTransferAmount(principal.getName());
-//}
 }
