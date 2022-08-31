@@ -12,7 +12,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +25,7 @@ public class TransferController {
     private UserDao userDao;
     @Autowired
     private TransferDao transferDao;
+
 
 
     @GetMapping (path = "/transfers/amount")

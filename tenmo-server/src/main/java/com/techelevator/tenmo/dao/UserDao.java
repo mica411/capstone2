@@ -16,6 +16,7 @@ public interface UserDao {
 
     User findById(Long id);
 
+    //User getUserByAccountId(int accountId);
 
 
 }

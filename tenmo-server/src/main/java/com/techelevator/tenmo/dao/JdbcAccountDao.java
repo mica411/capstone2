@@ -2,14 +2,11 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Balance;
-
-import com.techelevator.tenmo.model.User;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
-import javax.security.auth.login.AccountNotFoundException;
 import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -116,6 +113,8 @@ public class JdbcAccountDao implements AccountDao {
         }
         return username;
     }
+
+
     //TODO: DO NOT DELETE WE NEED IT FOR LATER
 
     private Account mapRowToAccount(SqlRowSet result) {

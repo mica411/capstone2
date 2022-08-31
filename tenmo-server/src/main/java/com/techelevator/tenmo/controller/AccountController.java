@@ -4,16 +4,14 @@ import com.techelevator.tenmo.dao.AccountDao;
 import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Balance;
-import com.techelevator.tenmo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.PermitAll;
-import javax.validation.Valid;
-import java.math.BigDecimal;
 import java.security.Principal;
-import java.util.List;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
@@ -39,6 +37,14 @@ public class AccountController {
     public Account getAccountByUserId(@PathVariable int userId) {
     return accountDao.getAccountByUserId(userId);
 }
+
+
+    @PreAuthorize("hasRole('USER')")
+    @RequestMapping(path = "/account/{accountId}", method = RequestMethod.GET)
+    public Account getAccountByAccountId(@PathVariable int accountId) {
+        return accountDao.getAccountByAccountId(accountId);
+    }
+
 
 
 

@@ -19,7 +19,7 @@ public class JdbcTransferDao implements TransferDao{
         this.jdbcTemplate = new JdbcTemplate(ds);
     }
 
-
+    @Override
     public Transfer getTransferAmount (){
         String sql = "SELECT amount, transfer_id FROM transfer";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
@@ -67,16 +67,17 @@ public class JdbcTransferDao implements TransferDao{
 
     //TODO CONTINUE!!!
 
-    @Override
-    public Transfer getUsernameByAccountId(int accountId) {
-        String username = "SELECT username FROM tenmo_user " +
-                "JOIN account a ON tenmo_user.user_id = a.user_id " +
-                "WHERE a.account_id = ?;";
-
-        SqlRowSet result = jdbcTemplate.queryForRowSet(username, accountId);
-
-        return null;
-    }
+//    @Override
+//    public Transfer getUsernameByAccountId(int accountId) {
+//        User user= new User();
+//        String username = "SELECT username FROM tenmo_user " +
+//                "JOIN account a ON tenmo_user.user_id = a.user_id " +
+//                "WHERE a.account_id = ?;";
+//
+//        SqlRowSet result = jdbcTemplate.queryForRowSet(username, accountId);
+//
+//        return null;
+//    }
 
     @Override
     public Transfer getTransferStatus(int statusId) {

@@ -61,6 +61,14 @@ public class AccountServiceRest {
         return users;
     }
 
+    public Account getAccount(int accountId, AuthenticatedUser authenticatedUser){
+        HttpEntity<Void> entity= makeAuthEntity(authenticatedUser);
+        Account account= new Account();
+
+        account= restTemplate.exchange(baseUrl+"account/"+accountId, HttpMethod.GET, entity,Account.class).getBody();
+        return account;
+    }
+
     public Account getAccountByUserId(Long userId, AuthenticatedUser authenticatedUser){
        HttpEntity<Void> entity= makeAuthEntity(authenticatedUser);
 //        System.out.println(userId);
@@ -80,20 +88,31 @@ public class AccountServiceRest {
         }
 
 
-    public User getUsersById(int id, AuthenticatedUser authenticatedUser) {
-        HttpEntity<Void> entity = makeAuthEntity(authenticatedUser);
-        User user = null;
-        try {
-            user = restTemplate.exchange(baseUrl + "user/" + id, HttpMethod.GET, entity,
-                    User.class).getBody();
 
-        } catch (RestClientResponseException rcre) {
-            BasicLogger.log(rcre.getRawStatusCode() + " : " + rcre.getStatusText());
-        } catch (ResourceAccessException rae) {
-            BasicLogger.log(rae.getMessage());
-        }
-        return user;
+    public User getUserByAccountId(int accountId, AuthenticatedUser authenticatedUser){
+        HttpEntity<Void> entity= makeAuthEntity(authenticatedUser);
+        User user= new User();
+
+         return restTemplate.exchange(baseUrl+"/users/account/"+accountId, HttpMethod.GET,entity,User.class).getBody();
+
     }
+
+//    public User getUsersById(int id, AuthenticatedUser authenticatedUser) {
+//        HttpEntity<Void> entity = makeAuthEntity(authenticatedUser);
+//        User user = null;
+//        try {
+//            user = restTemplate.exchange(baseUrl + "user/" + id, HttpMethod.GET, entity,
+//                    User.class).getBody();
+//
+//        } catch (RestClientResponseException rcre) {
+//            BasicLogger.log(rcre.getRawStatusCode() + " : " + rcre.getStatusText());
+//        } catch (ResourceAccessException rae) {
+//            BasicLogger.log(rae.getMessage());
+//        }
+//        return user;
+//    }
+
+
 
 
 

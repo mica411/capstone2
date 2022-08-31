@@ -2,17 +2,12 @@ package com.techelevator.tenmo;
 
 
 import com.techelevator.tenmo.model.*;
-import com.techelevator.tenmo.services.AccountServiceRest;
-import com.techelevator.tenmo.services.AuthenticationService;
-import com.techelevator.tenmo.services.ConsoleService;
-import com.techelevator.tenmo.services.TransferServiceRest;
+import com.techelevator.tenmo.services.*;
 import com.techelevator.util.BasicLogger;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 
 public class App {
 
@@ -22,6 +17,8 @@ public class App {
     private AuthenticatedUser currentUser;
     private final AccountServiceRest accountService = new AccountServiceRest(API_BASE_URL);
      private TransferServiceRest transferService = new TransferServiceRest (API_BASE_URL);
+
+     private UserService userService= new UserService(API_BASE_URL);
 
     public static void main(String[] args) {
         App app = new App();
@@ -122,17 +119,31 @@ public class App {
         for (Transfer transfer : transfers) {
             if (choice == transfer.getTransferId()) {
 //        Transfer transfer= transferService.getTransfer( choice, currentUser);
-
+                String status="";
+                String type="";
+                if(transfer.getTransferTypeId()==2){
+                    type="Send";
+                }else{
+                    type="Request";
+                }
+                if(transfer.getTransferStatusId()==2){
+                    status="Approved";
+                }
+                Long to= Long.valueOf(accountService.getAccount(transfer.getAccountTo(), currentUser).getUserId());
+                Long from= Long.valueOf(accountService.getAccount(transfer.getAccountFrom(),currentUser).getUserId());
                     System.out.println("------------------------------------------");
                     System.out.println("Transfer Details");
                     System.out.println("------------------------------------------");
                     System.out.println("Transfer Id: " + transfer.getTransferId());
-                    System.out.println("From:        " + transfer.getAccountFrom());
-                    System.out.println("To:          " + transfer.getAccountTo());
-                    System.out.println("Type:        " + transfer.getTransferTypeId());
-                    System.out.println("Status:      " + transfer.getTransferStatusId());
+                    System.out.println("From:        " + userService.getUser(from, currentUser).getUsername());
+                    System.out.println("To:          " + userService.getUser(to, currentUser).getUsername());
+                    System.out.println("Type:        " + type);
+                    System.out.println("Status:      " + status);
                     System.out.println("Amount:      $" + transfer.getAmount());
 
+
+               // System.out.println(userService.getUser(to, currentUser).getUsername());
+                //System.out.println(userService.getUser(from, currentUser).getUsername());
 
             }
         }

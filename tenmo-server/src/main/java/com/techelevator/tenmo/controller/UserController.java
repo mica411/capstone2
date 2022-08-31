@@ -22,8 +22,8 @@ public class UserController {
     }
 
 
-    @RequestMapping(path = "/users/{id}", method = RequestMethod.GET)
-    public User listUserById(@PathVariable Long id, Principal principal) {
+    @RequestMapping(path = "/user/{id}", method = RequestMethod.GET)
+    public User listUserById(@PathVariable Long id) {
         return userDao.findById(id);
     }
 
@@ -33,4 +33,9 @@ public class UserController {
         return userDao.findAll();
     }
 
+
+//    @RequestMapping(path = "/users/account/{accountId}", method = RequestMethod.GET)
+//    public User getUserByAccountId(@PathVariable int accountId){
+//        return userDao.getUserByAccountId(accountId);
+//    }
 }

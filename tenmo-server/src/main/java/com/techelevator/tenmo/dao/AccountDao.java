@@ -3,9 +3,7 @@ package com.techelevator.tenmo.dao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Balance;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.math.BigDecimal;
-import java.util.List;
 
 public interface AccountDao {
     Balance getBalanceByUserId(int id);
@@ -25,6 +23,8 @@ public interface AccountDao {
     Account getAccountByUserId(int userId);
 
     Account getUsernameByAccountId (int accountId);
+
+
 
 
 
